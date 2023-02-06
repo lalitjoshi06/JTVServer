@@ -13,5 +13,5 @@ RUN  npm install
 
 EXPOSE 3500
 
-ENTRYPOINT ["node", "./index.js"]                              
+ENTRYPOINT ["node", "./src/index.js"]                              
 
