@@ -4,6 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JTVServer Login</title>
+    <!-- dont use this analytics code pls -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F033WLZ7K5"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+
+      gtag('config', 'G-F033WLZ7K5');
+    </script>
+    <!-- dont use this analytics code pls -->
     <style>
       html,
       body {
@@ -243,7 +254,7 @@
       </tab-container>
       <div class="formcontainer">
         <a href="/playlist/download"><button>Download Playlist</button></a>
-        <button id="sendOTP" onclick="copyPlaylist()" type="submit">Copy Playlist Url</button>
+        <button id="copyPlaylist" onclick="copyPlaylist()" type="submit">Copy Playlist Url</button>
       </div>
     </div>
   </body>
@@ -292,19 +303,20 @@
       navigator.clipboard.writeText(`http://${ipinfo['ip']}:${ipinfo['port']}/playlist`).then(function () {
         alertEl.style.display = "block";
         alertEl.style.backgroundColor = "#4CAF50";
-        alertEl.innerHTML = "<strong>Success!</strong> Playlist Copyed to clipboard";
+        alertEl.innerHTML = "<strong>Success!</strong> Playlist Copyed to clipboard \n" + `http://${ipinfo['ip']}:${ipinfo['port']}/playlist`;
         console.log("su");
       }, function (err) {
         console.log("er");
         console.error('Async: Could not copy text: ', err);
         alertEl.style.display = "block";
         alertEl.style.backgroundColor = "#4CAF50";
-        alertEl.innerHTML += "<strong>Error!</strong> Error while Copying Playlist to clipboard";
+        alertEl.innerHTML += "<strong>Error!</strong> Error while Copying Playlist to clipboard \n" + `http://${ipinfo['ip']}:${ipinfo['port']}/playlist`;
       });
     }
     async function setIp() {
         let data = await fetch('/ip');
         ipinfo = await data.json();
+        // document.getElementById("copyPlaylist").innerText = `http://${ipinfo['ip']}:${ipinfo['port']}/playlist`;
         document.getElementById("ipinput").value = ipinfo['ip'];
     }
   </script>

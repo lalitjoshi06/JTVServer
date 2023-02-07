@@ -183,7 +183,7 @@ background: #000; */
         const params = new URLSearchParams(window.location.search),
         chName = params.get('ch').split(".")[0],
         chid = params.get("id")
-            n = `http://localhost:3500/getm3u8/${chid}/master.m3u8`,
+            n = `/getm3u8/${chid}/master.m3u8`,
             o = {};
             document.title = chName.replace("_", " ")
         if (Hls.isSupported()) {

@@ -1,17 +1,14 @@
-FROM alpine
-
-# Install Node and NPM
-RUN apk add --update nodejs npm
+FROM node:16.3.0-alpine
 
 # Copy app to /src
 COPY . /src
 
 WORKDIR /src
 
-# Install dependencies
-RUN  npm install
+ENV PORT=3500
 
-EXPOSE 3500
+EXPOSE ${PORT}
 
-ENTRYPOINT ["node", "./src/index.js"]                              
+ENTRYPOINT ["sh", "start.sh"]
 
+CMD ["sh", "start.sh"]
