@@ -1,0 +1,264 @@
+<html>
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="shortcut icon" type="image/x-icon" href="https://jiotv.com/src/resources/images/JioTV_logo.png">
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.2/plyr.css" />
+    <link href="https://fonts.googleapis.com/css?family=Poppins|Quattrocento+Sans" rel="stylesheet" />
+    <script src="https://cdn.plyr.io/3.6.3/plyr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js"></script>
+    <!-- dont use this analytics code pls -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F033WLZ7K5"></script>
+    <!-- <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-F033WLZ7K5'); 
+    </script>-->
+    <!-- dont use this analytics code pls -->
+</head>
+<style>
+    html {
+        /* font-family: Poppins;
+background: #000; */
+        margin: 0;
+        padding: 0
+    }
+
+    html {
+        font-family: sans-serif;
+        background: #000;
+    }
+
+    .plyr {
+        height: 100%;
+        width: 100%;
+    }
+
+    :root {
+        --plyr-color-main: #d9230f;
+    }
+
+    .loading {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 9999;
+    }
+
+    .loading-text {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        text-align: center;
+        width: 100%;
+        height: 100px;
+        line-height: 100px;
+    }
+
+    .loading-text span {
+        display: inline-block;
+        margin: 0 5px;
+        color: #d9230f;
+        font-family: 'Quattrocento Sans', sans-serif;
+    }
+
+    .loading-text span:nth-child(1) {
+        filter: blur(0px);
+        animation: blur-text 1.5s 0s infinite linear alternate;
+    }
+
+    .loading-text span:nth-child(2) {
+        filter: blur(0px);
+        animation: blur-text 1.5s 0.2s infinite linear alternate;
+    }
+
+    .loading-text span:nth-child(3) {
+        filter: blur(0px);
+        animation: blur-text 1.5s 0.4s infinite linear alternate;
+    }
+
+    .loading-text span:nth-child(4) {
+        filter: blur(0px);
+        animation: blur-text 1.5s 0.6s infinite linear alternate;
+    }
+
+    .loading-text span:nth-child(5) {
+        filter: blur(0px);
+        animation: blur-text 1.5s 0.8s infinite linear alternate;
+    }
+
+    .loading-text span:nth-child(6) {
+        filter: blur(0px);
+        animation: blur-text 1.5s 1s infinite linear alternate;
+    }
+
+    .loading-text span:nth-child(7) {
+        filter: blur(0px);
+        animation: blur-text 1.5s 1.2s infinite linear alternate;
+    }
+
+    .loading-text span:nth-child(8) {
+        filter: blur(0px);
+        animation: blur-text 1.5s 1.4s infinite linear alternate;
+    }
+
+    .loading-text span:nth-child(9) {
+        filter: blur(0px);
+        animation: blur-text 1.5s 1.6s infinite linear alternate;
+    }
+
+    @keyframes blur-text {
+        0% {
+            filter: blur(0px);
+        }
+
+        100% {
+            filter: blur(4px);
+        }
+    }
+
+    .plyr__video-wrapper::before {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 10;
+        content: '';
+        height: 35px;
+        width: 35px;
+        background: url('') no-repeat;
+        background-size: 35px auto, auto;
+    }
+
+    .plyr__video-wrapper::after {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 10;
+        content: '';
+        height: 35px;
+        width: 35px;
+        background: url('https://jiotv.com/src/resources/images/JioTV_logo.png') no-repeat;
+        background-size: 35px auto, auto;
+    }
+</style>
+
+<body>
+<div id="player">
+    <video controls>
+        <source src="/catchup/getm3u8/1679596200000/1679597460000/144/master.m3u8" type="application/x-mpegURL">
+    </video>
+</div>
+
+<div>
+    <label>Quality:</label>
+    <select id="quality-select"></select>
+</div>
+
+<div>
+    <label>Audio:</label>
+    <select id="audio-select"></select>
+</div>
+
+<div>
+    <label>Subtitles:</label>
+    <select id="subtitles-select"></select>
+</div>
+</body>
+<script src="https://cdn.plyr.io/3.6.3/plyr.polyfilled.js"></script>
+<!-- <script src="https://cdn.plyr.io/3.6.3/plugins/hls.js"></script> -->
+<script>
+        const player = new Plyr('#player', {
+            plugins: ['hls'],
+        });
+
+        // Set up the quality selector
+        const qualitySelect = document.getElementById('quality-select');
+        player.on('loadedmetadata', function () {
+            const levels = player.hls.levels;
+            for (const level of levels) {
+                const option = document.createElement('option');
+                option.value = level.height;
+                option.textContent = `${level.height}p`;
+                qualitySelect.appendChild(option);
+            }
+
+            // Select the first available quality by default
+            qualitySelect.value = levels[0].height;
+
+            // Set up the audio selector
+            const audioSelect = document.getElementById('audio-select');
+            const audioTracks = player.getAudioTracks();
+            for (const track of audioTracks) {
+                const option = document.createElement('option');
+                option.value = track.language;
+                option.textContent = track.label || track.language;
+                audioSelect.appendChild(option);
+            }
+
+            // Select the first available audio track by default
+            if (audioTracks.length > 0) {
+                audioSelect.value = audioTracks[0].language;
+            }
+
+            // Set up the subtitles selector
+            const subtitlesSelect = document.getElementById('subtitles-select');
+            const subtitleTracks = player.getSubtitles();
+            const defaultSubtitleOption = document.createElement('option');
+            defaultSubtitleOption.value = 'none';
+            defaultSubtitleOption.textContent = 'None';
+            subtitlesSelect.appendChild(defaultSubtitleOption);
+            for (const track of subtitleTracks) {
+                const option = document.createElement('option');
+                option.value = track.language;
+                option.textContent = track.label || track.language;
+                subtitlesSelect.appendChild(option);
+            }
+        });
+        qualitySelect.addEventListener('change', function () {
+            const quality = this.value;
+            const level = player.hls.levels.find(l => l.height === parseInt(quality));
+            player.hls.currentLevel = level.index;
+        });
+
+        audioSelect.addEventListener('change', function () {
+            const language = this.value;
+            const tracks = player.getAudioTracks();
+            for (const track of tracks) {
+                if (track.language === language) {
+                    track.enabled = true;
+                } else {
+                    track.enabled = false;
+                }
+            }
+        });
+
+        subtitlesSelect.addEventListener('change', function () {
+            const language = this.value;
+            const tracks = player.getSubtitles();
+            if (language === 'none') {
+                player.disableSubtitles();
+            } else {
+                for (const track of tracks) {
+                    if (track.language === language) {
+                        player.enableSubtitle(track);
+                    } else {
+                        player.disableSubtitle(track);
+                    }
+                }
+            }
+        });
+</script>
+
+</html>
