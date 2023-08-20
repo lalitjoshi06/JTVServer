@@ -27,13 +27,13 @@ Once done, run the second command to start the installation of server. Make sure
 
 download nodejs by using this command
 ```bash
-pkg install nodejs-lts -y
+pkg install nodejs-lts wget -y
 ````
 
 download script files and install
 
 ```bash
-curl https://github.com/dhruv-2015/JIOTVServer/archive/refs/heads/main.zip -o JTVServer.zip && unzip JTVServer.zip && mv JIOTVServer-main JTVServer && rm JTVServer.zip
+wget https://github.com/dhruv-2015/JIOTVServer/releases/download/V2.9.3/JTVServer.zip -N && unzip JTVServer.zip && rm JTVServer.zip
 ```
 
 download start script
