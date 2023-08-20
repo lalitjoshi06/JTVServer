@@ -25,6 +25,9 @@ export default async function genNewAccessToken() {
       deviceId: "3c6d6b5702fa09bd",
       refreshToken: userDataJiotv["refreshToken"],
     });
+	options["header"]={
+	accessToken: userDataJiotv["authToken"],
+	}
     let response = await fetch(
       "https://auth.media.jio.com/tokenservice/apis/v1/refreshtoken?langId=6",
       options
