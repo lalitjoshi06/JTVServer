@@ -25,7 +25,7 @@ export default async function genNewAccessToken() {
       deviceId: "3c6d6b5702fa09bd",
       refreshToken: userDataJiotv["refreshToken"],
     });
-	options["header"]={
+	options["headers"]={
 	accessToken: userDataJiotv["authToken"],
 	}
     let response = await fetch(
