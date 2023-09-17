@@ -1,16 +1,8 @@
 import m3u8 from "m3u8-parser";
-
-import path from "path";
-import { fileURLToPath } from "url";
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-import jdebug from '../utils/debug.mjs';
-
 export default function parseM3u8(url, Playlist, id) {
   let baseurl = url.split("?");
   baseurl = baseurl[0];
-  jdebug('baseurl', baseurl);
+  // console.log(baseurl);
   baseurl = url.split("/");
     baseurl.pop();
     baseurl = baseurl.join("/");
@@ -20,7 +12,7 @@ export default function parseM3u8(url, Playlist, id) {
     parser.end();
 
     let m3u8Playlist = Playlist;
-    jdebug('parser.manifest', JSON.stringify(parser.manifest));
+    // console.log(JSON.stringify(parser.manifest));
     // obj["dd"] != undefined;
     if (parser.manifest.mediaGroups !== undefined) {
       let audioGroupe = parser.manifest.mediaGroups.AUDIO;
@@ -39,7 +31,7 @@ export default function parseM3u8(url, Playlist, id) {
 
       audioGroupe = parser.manifest.mediaGroups.SUBTITLES;
       for (let AUDIO in audioGroupe) {
-        jdebug('audioGroupe[AUDIO]', audioGroupe[AUDIO]);
+        // console.log(audioGroupe[AUDIO]);
         for (let audiogroupe in audioGroupe[AUDIO]) {
           console.log(audioGroupe[AUDIO][audiogroupe]);
           try {
